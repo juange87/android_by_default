@@ -1,27 +1,220 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+apply from: '../config/quality/quality.gradle'
+apply from: "../buildsystem/artifacts.gradle"
+
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.2.3'
+    }
+}
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+    buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
 
     defaultConfig {
-        applicationId "com.juange.androidbydefault"
-        minSdkVersion 16
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
+        targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
+
+        applicationId 'com.digitalorigin.quebueno'
+        versionCode globalConfiguration.getAt("androidVersionCode")
+        versionName globalConfiguration.getAt("androidVersionName")
+        testInstrumentationRunner globalConfiguration.getAt("testInstrumentationRunner")
+        testApplicationId globalConfiguration.getAt("testApplicationId")
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    signingConfigs {
+        // You must set up an environment var before release signing
+        // Run: export APP_KEY={password}
+        // TODO Add your release keystore in /keystore folder
+        release {
+            storeFile file('keystore/release.keystore')
+            keyAlias 'alias'
+            storePassword "$System.env.APP_KEY"
+            keyPassword "$System.env.APP_KEY"
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            versionNameSuffix " Debug"
+            debuggable true
+        }
+    }
+
+    //Needed because of this https://github.com/square/okio/issues/58
+    lintOptions {
+        warning 'InvalidPackage'
+
+        abortOnError false
+
+        htmlReport true
+        // optional path to report (default will be lint-results.html in the build dir)
+        htmlOutput file("$project.buildDir/reports/lint/lint.html")
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            outputs.upToDateWhen { false }
+            showStandardStreams = true
         }
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+
+    def presentationDependencies = rootProject.ext.presentationDependencies
+    def presentationTestDependencies = rootProject.ext.presentationTestDependencies
+
+
+    //DAGGER
+    apt presentationDependencies.daggerCompiler
+    compile presentationDependencies.dagger
+
+    //Android
+    compile presentationDependencies.designSupport
+    compile presentationDependencies.appcompat
+    provided presentationDependencies.javaxAnnotation
+
+    //ThirdParty
+    compile presentationDependencies.butterKnife
+    compile presentationDependencies.recyclerView
+    compile presentationDependencies.rxJava
+    compile presentationDependencies.rxAndroid
+    compile presentationDependencies.jodaTime
+    compile presentationDependencies.materialSpinner
+    compile presentationDependencies.betterpickers
+
+    //LEAK CANARY
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
+
+    //LOGGING
+    compile 'com.jakewharton.timber:timber:4.1.0'
+    compile 'com.facebook.stetho:stetho:1.3.0'
+    compile 'com.facebook.stetho:stetho-okhttp3:1.3.0'
+    compile 'com.uphyca:stetho_realm:0.8.0'
+
+    //UI Tests Dependencies
+    androidTestProvided presentationTestDependencies.javaxAnnotation
+    androidTestApt presentationTestDependencies.daggerCompiler
+    androidTestCompile presentationTestDependencies.dagger
+    androidTestCompile presentationTestDependencies.mockito
+    androidTestCompile 'com.github.fabioCollini:DaggerMock:0.5'
+
+    androidTestCompile(presentationTestDependencies.espresso) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile(presentationTestDependencies.supportTestRunner) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile(presentationTestDependencies.supportTestRules) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.0'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.0'
+
+    androidTestCompile ('com.novoda:rxpresso:0.2.0') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'io.reactivex'
+    }
+
+    // Unit tests dependencies
+    testCompile presentationTestDependencies.jUnit
+    testCompile presentationTestDependencies.mockito
+
+    // Custom checkstyle rules
+    checkstyle project(':custom-checkstyle')
 }
+
+// Log out test results to console
+tasks.matching { it instanceof Test }.
+        all {
+            testLogging.events = ["failed", "passed", "skipped"]
+        }
+
+//We use this to check gradle compiling times individually
+class TimingsListener implements TaskExecutionListener, BuildListener {
+
+    private Clock clock
+    private timings = []
+
+    @Override
+    void buildFinished(BuildResult result) {
+        println "Task timings:"
+        for (timing in timings) {
+            if (timing[0] >= 50) {
+                printf "%7sms  %s\n", timing
+            }
+        }
+    }
+
+    @Override
+    void buildStarted(Gradle gradle) {}
+
+    @Override
+    void projectsEvaluated(Gradle gradle) {}
+
+    @Override
+    void projectsLoaded(Gradle gradle) {}
+
+    @Override
+    void settingsEvaluated(Settings settings) {}
+
+    @Override
+    void beforeExecute(Task task) {
+        clock = new org.gradle.util.Clock()
+    }
+
+    @Override
+    void afterExecute(Task task, TaskState state) {
+        def miliseconds = clock.timeInMs
+        timings.add([miliseconds, task.path])
+        task.project.logger.warn "${task.path} took ${miliseconds}ms"
+    }
+}
+
+gradle.addListener new TimingsListener()
+
+//GENERATE BETTER APK NAMES
+apply from: "../buildsystem/artifacts.gradle"
