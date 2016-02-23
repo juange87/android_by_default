@@ -1,0 +1,101 @@
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    //Android
+    androidBuildToolsVersion = "23.0.2"
+    androidMinSdkVersion = 15
+    androidTargetSdkVersion = 22
+    androidCompileSdkVersion = 23
+
+    //Android Components
+    recyclerViewVersion = '23.1.1'
+    supportLibs = '23.1.1'
+    androidAnnotationsVersion = '23.1.1'
+    googlePlayServicesVersion = '8.4.0'
+
+    //Libraries
+    daggerVersion = '2.0.2'
+    butterKnifeVersion = '7.0.1'
+    rxJavaVersion = '1.0.14'
+    rxAndroidVersion = '1.0.1'
+    javaxAnnotationVersion = '1.0'
+    gsonVersion = '2.3'
+    gsonConverterVersion = '2.0.0-beta4'
+    okHttpVersion = '3.1.1'
+    retrofitVersion = '2.0.0-beta4'
+    okHttpLoggingVersion = '3.0.0-RC1'
+    picassoVersion = '2.5.2'
+    jodaTimeVersion = '2.9.1'
+    realmVersion = '0.87.4'
+    rxjavaRetrofitAdapterVersion = '2.0.0-beta3'
+    materialSpinnerVersion = '1.1.1'
+    betterpickersVersion = '2.2.2'
+
+    //Testing
+    roboelectricVersion = '3.0'
+    jUnitVersion = '4.12'
+    assertJVersion = '1.7.1'
+    mockitoVersion = '1.9.5'
+    dexmakerVersion = '1.0'
+    espressoVersion = '2.2'
+    testingSupportLibVersion = '0.1'
+
+    presentationDependencies = [daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
+                                dagger         : "com.google.dagger:dagger:${daggerVersion}",
+                                butterKnife    : "com.jakewharton:butterknife:${butterKnifeVersion}",
+                                recyclerView   : "com.android.support:recyclerview-v7:${recyclerViewVersion}",
+                                rxJava         : "io.reactivex:rxjava:${rxJavaVersion}",
+                                rxAndroid      : "io.reactivex:rxandroid:${rxAndroidVersion}",
+                                javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+                                appcompat      : "com.android.support:appcompat-v7:${supportLibs}",
+                                designSupport  : "com.android.support:design:${supportLibs}",
+                                googlePlayGCM  : "com.google.android.gms:play-services-gcm:${googlePlayServicesVersion}",
+                                picasso        : "com.squareup.picasso:picasso:${picassoVersion}",
+                                jodaTime       : "net.danlew:android.joda:${jodaTimeVersion}",
+                                materialSpinner: "com.github.ganfra:material-spinner:${materialSpinnerVersion}",
+                                betterpickers  : "com.code-troopers.betterpickers:library:${betterpickersVersion}",]
+
+    presentationTestDependencies = [javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+                                    daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
+                                    dagger            : "com.google.dagger:dagger:${daggerVersion}",
+                                    mockito           : "org.mockito:mockito-core:${mockitoVersion}",
+                                    dexmaker          : "com.google.dexmaker:dexmaker:${dexmakerVersion}",
+                                    dexmakerMockito   : "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
+                                    espresso          : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+                                    testingSupportLib : "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+                                    jUnit             : "junit:junit:${jUnitVersion}",
+                                    androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
+                                    supportTestRunner : "com.android.support.test:runner:0.4.1",
+                                    supportTestRules  : "com.android.support.test:rules:0.4.1",]
+
+    domainDependencies = [daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
+                          dagger         : "com.google.dagger:dagger:${daggerVersion}",
+                          javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+                          rxJava         : "io.reactivex:rxjava:${rxJavaVersion}",]
+
+    domainTestDependencies = [junit  : "junit:junit:${jUnitVersion}",
+                              mockito: "org.mockito:mockito-core:${mockitoVersion}",]
+
+    dataDependencies = [daggerCompiler       : "com.google.dagger:dagger-compiler:${daggerVersion}",
+                        dagger               : "com.google.dagger:dagger:${daggerVersion}",
+                        okHttp               : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+                        retrofit             : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+                        okHttpLogging        : "com.squareup.okhttp3:logging-interceptor:${okHttpLoggingVersion}",
+                        gson                 : "com.google.code.gson:gson:${gsonVersion}",
+                        gsonConverter        : "com.squareup.retrofit2:converter-gson:${gsonConverterVersion}",
+                        rxJava               : "io.reactivex:rxjava:${rxJavaVersion}",
+                        rxAndroid            : "io.reactivex:rxandroid:${rxAndroidVersion}",
+                        rxjavaAdapterRetrofit: "com.squareup.retrofit2:adapter-rxjava:${rxjavaRetrofitAdapterVersion}",
+                        javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+                        androidAnnotations   : "com.android.support:support-annotations:${androidAnnotationsVersion}",
+                        realm                : "io.realm:realm-android:${realmVersion}",]
+
+    dataTestDependencies = [junit      : "junit:junit:${jUnitVersion}",
+                            assertj    : "org.assertj:assertj-core:${assertJVersion}",
+                            mockito    : "org.mockito:mockito-core:${mockitoVersion}",
+                            robolectric: "org.robolectric:robolectric:${roboelectricVersion}",]
+}
