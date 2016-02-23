@@ -1,0 +1,17 @@
+/**
+ * Set up Checkstyle, Findbugs and PMD to perform extensive code analysis.
+ *
+ * Gradle tasks added:
+ * - checkstyle
+ * - findbugs
+ * - pmd
+ *
+ * The three tasks above are added as dependencies of the check task so running check will
+ * run all of them.
+ */
+
+apply from: "$project.rootDir/config/quality/quality_checkstyle.gradle"
+apply from: "$project.rootDir/config/quality/quality_findbugs.gradle"
+apply from: "$project.rootDir/config/quality/quality_pmd.gradle"
+
+check.dependsOn 'checkstyle', 'checkstyleReport', 'findbugs', 'pmd'

@@ -1,0 +1,25 @@
+apply plugin: 'pmd'
+
+def qualityConfigDir = "$project.rootDir/config/quality";
+def reportsDir = "$project.buildDir/reports"
+
+task pmd(type: Pmd, group: 'Verification', description: 'Inspect sourcecode for bugs') {
+    ruleSetFiles = files("$qualityConfigDir/pmd/pmd-ruleset.xml")
+    ignoreFailures = true
+    ruleSets = []
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+        xml {
+            destination "$reportsDir/pmd/pmd.xml"
+        }
+        html {
+            destination "$reportsDir/pmd/pmd.html"
+        }
+    }
+}

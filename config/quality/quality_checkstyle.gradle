@@ -1,0 +1,34 @@
+apply plugin: 'checkstyle'
+
+dependencies {
+    checkstyle 'com.puppycrawl.tools:checkstyle:6.5'
+}
+
+task checkstyle(type: Checkstyle, group: 'Verification', description: 'Runs code style checks') {
+    configFile file("$project.rootDir/config/quality/checkstyle/checkstyle.xml")
+    source 'src/main/java'
+    include '**/*.java'
+    exclude '**/gen/**'
+    exclude '**/build/**'
+    exclude '**/R.java'
+    exclude '**/BuildConfig.java'
+    exclude '**/billing/util/**'
+
+    classpath = files()
+    ignoreFailures = true
+}
+
+task checkstyleReport << {
+    if (file("$buildDir/reports/quality/checkstyle/checkstyle.xml").
+            exists()) {
+        ant.xslt(in: "$buildDir/reports/quality/checkstyle/checkstyle.xml",
+                style: "$project.rootDir/config/quality/checkstyle/checkstyle.xsl",
+                out: "$buildDir/reports/checkstyle/checkstyle.html")
+    }
+}
+
+gradle.taskGraph.afterTask { Task task, TaskState state ->
+    if (state.failure && task.name in ['checkstyle']) {
+        checkstyleReport.execute()
+    }
+}
