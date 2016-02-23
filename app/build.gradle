@@ -103,9 +103,11 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     def dataLayer = ':data'
+    def domainLayer = ':domain'
     def presentationDependencies = rootProject.ext.presentationDependencies
     def presentationTestDependencies = rootProject.ext.presentationTestDependencies
 
+    compile project(domainLayer)
     compile project(dataLayer)
 
     //DAGGER
