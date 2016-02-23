@@ -102,9 +102,11 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
+    def dataLayer = ':data'
     def presentationDependencies = rootProject.ext.presentationDependencies
     def presentationTestDependencies = rootProject.ext.presentationTestDependencies
 
+    compile project(dataLayer)
 
     //DAGGER
     apt presentationDependencies.daggerCompiler
