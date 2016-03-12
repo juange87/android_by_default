@@ -20,20 +20,21 @@ ext {
     //Libraries
     daggerVersion = '2.0.2'
     butterKnifeVersion = '7.0.1'
+
     rxJavaVersion = '1.0.14'
+
     rxAndroidVersion = '1.0.1'
     javaxAnnotationVersion = '1.0'
+
     gsonVersion = '2.3'
     gsonConverterVersion = '2.0.0-beta4'
     okHttpVersion = '3.1.1'
     retrofitVersion = '2.0.0-beta4'
     okHttpLoggingVersion = '3.0.0-RC1'
+    rxjavaRetrofitAdapterVersion = '2.0.0-beta3'
+
     picassoVersion = '2.5.2'
     jodaTimeVersion = '2.9.1'
-    realmVersion = '0.87.4'
-    rxjavaRetrofitAdapterVersion = '2.0.0-beta3'
-    materialSpinnerVersion = '1.1.1'
-    betterpickersVersion = '2.2.2'
 
     //Testing
     roboelectricVersion = '3.0'
@@ -55,9 +56,7 @@ ext {
                                 designSupport  : "com.android.support:design:${supportLibs}",
                                 googlePlayGCM  : "com.google.android.gms:play-services-gcm:${googlePlayServicesVersion}",
                                 picasso        : "com.squareup.picasso:picasso:${picassoVersion}",
-                                jodaTime       : "net.danlew:android.joda:${jodaTimeVersion}",
-                                materialSpinner: "com.github.ganfra:material-spinner:${materialSpinnerVersion}",
-                                betterpickers  : "com.code-troopers.betterpickers:library:${betterpickersVersion}",]
+                                jodaTime       : "net.danlew:android.joda:${jodaTimeVersion}",]
 
     presentationTestDependencies = [javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
                                     daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
@@ -91,8 +90,7 @@ ext {
                         rxAndroid            : "io.reactivex:rxandroid:${rxAndroidVersion}",
                         rxjavaAdapterRetrofit: "com.squareup.retrofit2:adapter-rxjava:${rxjavaRetrofitAdapterVersion}",
                         javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-                        androidAnnotations   : "com.android.support:support-annotations:${androidAnnotationsVersion}",
-                        realm                : "io.realm:realm-android:${realmVersion}",]
+                        androidAnnotations   : "com.android.support:support-annotations:${androidAnnotationsVersion}",]
 
     dataTestDependencies = [junit      : "junit:junit:${jUnitVersion}",
                             assertj    : "org.assertj:assertj-core:${assertJVersion}",

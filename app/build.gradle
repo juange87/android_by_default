@@ -125,8 +125,6 @@ dependencies {
     compile presentationDependencies.rxJava
     compile presentationDependencies.rxAndroid
     compile presentationDependencies.jodaTime
-    compile presentationDependencies.materialSpinner
-    compile presentationDependencies.betterpickers
 
     //LEAK CANARY
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
