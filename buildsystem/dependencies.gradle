@@ -27,11 +27,11 @@ ext {
     javaxAnnotationVersion = '1.0'
 
     gsonVersion = '2.3'
-    gsonConverterVersion = '2.0.0-beta4'
+    gsonConverterVersion = '2.0.0'
     okHttpVersion = '3.1.1'
-    retrofitVersion = '2.0.0-beta4'
+    retrofitVersion = '2.0.0'
     okHttpLoggingVersion = '3.0.0-RC1'
-    rxjavaRetrofitAdapterVersion = '2.0.0-beta3'
+    rxjavaRetrofitAdapterVersion = '2.0.0'
 
     picassoVersion = '2.5.2'
     jodaTimeVersion = '2.9.1'
