@@ -37,7 +37,6 @@ ext {
     rxjavaRetrofitAdapterVersion = '2.1.0'
 
     picassoVersion = '2.5.2'
-    jodaTimeVersion = '2.9.1'
 
     //Testing
     roboelectricVersion = '3.0'
@@ -58,8 +57,7 @@ ext {
                                 appcompat      : "com.android.support:appcompat-v7:${supportLibs}",
                                 designSupport  : "com.android.support:design:${supportLibs}",
                                 googlePlayGCM  : "com.google.android.gms:play-services-gcm:${googlePlayServicesVersion}",
-                                picasso        : "com.squareup.picasso:picasso:${picassoVersion}",
-                                jodaTime       : "net.danlew:android.joda:${jodaTimeVersion}",]
+                                picasso        : "com.squareup.picasso:picasso:${picassoVersion}",]
 
     presentationTestDependencies = [javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
                                     daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",

@@ -124,7 +124,6 @@ dependencies {
     compile presentationDependencies.recyclerView
     compile presentationDependencies.rxJava
     compile presentationDependencies.rxAndroid
-    compile presentationDependencies.jodaTime
 
     //UI Tests Dependencies
     androidTestProvided presentationTestDependencies.javaxAnnotation
