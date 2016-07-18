@@ -15,23 +15,26 @@ ext {
     recyclerViewVersion = '23.1.1'
     supportLibs = '23.1.1'
     androidAnnotationsVersion = '23.1.1'
-    googlePlayServicesVersion = '8.4.0'
+    googlePlayServicesVersion = '9.2.0'
 
     //Libraries
-    daggerVersion = '2.0.2'
-    butterKnifeVersion = '7.0.1'
+    daggerVersion = '2.2'
+    javaxInjectVersion = '1'
 
-    rxJavaVersion = '1.0.14'
+    butterKnifeVersion = '8.2.0'
 
-    rxAndroidVersion = '1.0.1'
+    rxJavaVersion = '1.1.6'
+    rxAndroidVersion = '1.2.1'
+
     javaxAnnotationVersion = '1.0'
 
     gsonVersion = '2.3'
-    gsonConverterVersion = '2.0.0'
-    okHttpVersion = '3.1.1'
-    retrofitVersion = '2.0.0'
-    okHttpLoggingVersion = '3.0.0-RC1'
-    rxjavaRetrofitAdapterVersion = '2.0.0'
+    okHttpVersion = '3.4.0'
+    okHttpLoggingVersion = '3.4.0'
+
+    retrofitVersion = '2.1.0'
+    gsonConverterVersion = '2.1.0'
+    rxjavaRetrofitAdapterVersion = '2.1.0'
 
     picassoVersion = '2.5.2'
     jodaTimeVersion = '2.9.1'
@@ -72,7 +75,7 @@ ext {
                                     supportTestRules  : "com.android.support.test:rules:0.4.1",]
 
     domainDependencies = [daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
-                          dagger         : "com.google.dagger:dagger:${daggerVersion}",
+                          javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
                           javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
                           rxJava         : "io.reactivex:rxjava:${rxJavaVersion}",]
 
@@ -80,7 +83,7 @@ ext {
                               mockito: "org.mockito:mockito-core:${mockitoVersion}",]
 
     dataDependencies = [daggerCompiler       : "com.google.dagger:dagger-compiler:${daggerVersion}",
-                        dagger               : "com.google.dagger:dagger:${daggerVersion}",
+                        javaxInject          : "javax.inject:javax.inject:${javaxInjectVersion}",
                         okHttp               : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
                         retrofit             : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
                         okHttpLogging        : "com.squareup.okhttp3:logging-interceptor:${okHttpLoggingVersion}",
