@@ -6,37 +6,34 @@ allprojects {
 
 ext {
     //Android
-    androidBuildToolsVersion = "23.0.3"
-    androidMinSdkVersion = 15
-    androidTargetSdkVersion = 22
-    androidCompileSdkVersion = 25
+    androidBuildToolsVersion = "26.0.2"
+    androidMinSdkVersion = 17
+    androidTargetSdkVersion = 26
+    androidCompileSdkVersion = 26
 
     //Android Components
-    recyclerViewVersion = '23.1.1'
-    supportLibs = '23.1.1'
+    recyclerViewVersion = '27.0.2'
+    supportLibsVersion = '27.0.2'
     androidAnnotationsVersion = '23.1.1'
     googlePlayServicesVersion = '9.2.0'
 
     //Libraries
-    daggerVersion = '2.7'
+    daggerVersion = '2.14.1'
     javaxInjectVersion = '1'
 
-    butterKnifeVersion = '8.2.0'
-
-    rxJavaVersion = '1.2.2'
-    rxAndroidVersion = '1.2.1'
+    rxJavaVersion = '2.1.9'
+    rxAndroidVersion = '2.0.1'
 
     javaxAnnotationVersion = '1.0'
 
     gsonVersion = '2.3'
-    okHttpVersion = '3.4.0'
+    okHttpVersion = '3.9.1'
     okHttpLoggingVersion = '3.4.0'
 
-    retrofitVersion = '2.1.0'
-    gsonConverterVersion = '2.1.0'
-    rxjavaRetrofitAdapterVersion = '2.1.0'
+    retrofitVersion = '2.3.0'
+    gsonConverterVersion = '2.3.0'
+    rxjavaRetrofitAdapterVersion = '2.3.0'
 
-    picassoVersion = '2.5.2'
 
     //Testing
     roboelectricVersion = '3.0'
@@ -45,56 +42,9 @@ ext {
     mockitoVersion = '1.9.5'
     dexmakerVersion = '1.0'
     espressoVersion = '2.2'
+    testRunnerVersion = '0.4.1'
+    testRulesVersion = '0.4.1'
     testingSupportLibVersion = '0.1'
-
-    presentationDependencies = [daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
-                                dagger         : "com.google.dagger:dagger:${daggerVersion}",
-                                butterKnife    : "com.jakewharton:butterknife:${butterKnifeVersion}",
-                                recyclerView   : "com.android.support:recyclerview-v7:${recyclerViewVersion}",
-                                rxJava         : "io.reactivex:rxjava:${rxJavaVersion}",
-                                rxAndroid      : "io.reactivex:rxandroid:${rxAndroidVersion}",
-                                javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-                                appcompat      : "com.android.support:appcompat-v7:${supportLibs}",
-                                designSupport  : "com.android.support:design:${supportLibs}",
-                                googlePlayGCM  : "com.google.android.gms:play-services-gcm:${googlePlayServicesVersion}",
-                                picasso        : "com.squareup.picasso:picasso:${picassoVersion}",]
-
-    presentationTestDependencies = [javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-                                    daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
-                                    dagger            : "com.google.dagger:dagger:${daggerVersion}",
-                                    mockito           : "org.mockito:mockito-core:${mockitoVersion}",
-                                    dexmaker          : "com.google.dexmaker:dexmaker:${dexmakerVersion}",
-                                    dexmakerMockito   : "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
-                                    espresso          : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
-                                    testingSupportLib : "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
-                                    jUnit             : "junit:junit:${jUnitVersion}",
-                                    androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
-                                    supportTestRunner : "com.android.support.test:runner:0.4.1",
-                                    supportTestRules  : "com.android.support.test:rules:0.4.1",]
-
-    domainDependencies = [daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
-                          javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
-                          javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-                          rxJava         : "io.reactivex:rxjava:${rxJavaVersion}",]
-
-    domainTestDependencies = [junit  : "junit:junit:${jUnitVersion}",
-                              mockito: "org.mockito:mockito-core:${mockitoVersion}",]
-
-    dataDependencies = [daggerCompiler       : "com.google.dagger:dagger-compiler:${daggerVersion}",
-                        javaxInject          : "javax.inject:javax.inject:${javaxInjectVersion}",
-                        okHttp               : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
-                        retrofit             : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
-                        okHttpLogging        : "com.squareup.okhttp3:logging-interceptor:${okHttpLoggingVersion}",
-                        gson                 : "com.google.code.gson:gson:${gsonVersion}",
-                        gsonConverter        : "com.squareup.retrofit2:converter-gson:${gsonConverterVersion}",
-                        rxJava               : "io.reactivex:rxjava:${rxJavaVersion}",
-                        rxAndroid            : "io.reactivex:rxandroid:${rxAndroidVersion}",
-                        rxjavaAdapterRetrofit: "com.squareup.retrofit2:adapter-rxjava:${rxjavaRetrofitAdapterVersion}",
-                        javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-                        androidAnnotations   : "com.android.support:support-annotations:${androidAnnotationsVersion}",]
-
-    dataTestDependencies = [junit      : "junit:junit:${jUnitVersion}",
-                            assertj    : "org.assertj:assertj-core:${assertJVersion}",
-                            mockito    : "org.mockito:mockito-core:${mockitoVersion}",
-                            robolectric: "org.robolectric:robolectric:${roboelectricVersion}",]
+    daggerMockVersion = '0.6'
+    dexMakerVersion = '1.2'
 }

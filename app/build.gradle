@@ -1,36 +1,32 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 apply from: '../config/quality/quality.gradle'
-apply from: "../buildsystem/artifacts.gradle"
 
 buildscript {
     repositories {
+        mavenCentral()
         jcenter()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-    }
-
-    dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.3.1'
     }
 }
 
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
 
-    compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
-    buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
 
     defaultConfig {
         minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
         targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
 
-        applicationId 'com.digitalorigin.quebueno'
-        versionCode globalConfiguration.getAt("androidVersionCode")
-        versionName globalConfiguration.getAt("androidVersionName")
-        testInstrumentationRunner globalConfiguration.getAt("testInstrumentationRunner")
-        testApplicationId globalConfiguration.getAt("testApplicationId")
+        applicationId 'com.juange.androidbydefault'
+        versionCode globalConfiguration["androidVersionCode"]
+        versionName globalConfiguration["androidVersionName"]
+        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
+        testApplicationId globalConfiguration["testApplicationId"]
     }
 
     compileOptions {
@@ -102,57 +98,48 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    def dataLayer = ':data'
-    def domainLayer = ':domain'
-    def presentationDependencies = rootProject.ext.presentationDependencies
-    def presentationTestDependencies = rootProject.ext.presentationTestDependencies
+    def dependencies = rootProject.ext
 
-    compile project(domainLayer)
-    compile project(dataLayer)
+    //KOTLIN
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //DAGGER
-    apt presentationDependencies.daggerCompiler
-    compile presentationDependencies.dagger
+    annotationProcessor "com.google.dagger:dagger-compiler:${dependencies.daggerVersion}"
+    compile "com.google.dagger:dagger:${dependencies.daggerVersion}"
 
     //Android
-    compile presentationDependencies.designSupport
-    compile presentationDependencies.appcompat
-    provided presentationDependencies.javaxAnnotation
+    compile "com.android.support:design:${dependencies.supportLibsVersion}"
+    compile "com.android.support:appcompat-v7:${dependencies.supportLibsVersion}"
+    provided "javax.annotation:jsr250-api:${dependencies.javaxAnnotationVersion}"
+    compile "com.android.support:recyclerview-v7:${dependencies.recyclerViewVersion}"
 
-    //ThirdParty
-    compile presentationDependencies.butterKnife
-    compile presentationDependencies.recyclerView
-    compile presentationDependencies.rxJava
-    compile presentationDependencies.rxAndroid
-
-    //UI Tests Dependencies
-    androidTestProvided presentationTestDependencies.javaxAnnotation
-    androidTestApt presentationTestDependencies.daggerCompiler
-    androidTestCompile presentationTestDependencies.dagger
-    androidTestCompile presentationTestDependencies.mockito
-    androidTestCompile 'com.github.fabioCollini:DaggerMock:0.5'
-
-    androidTestCompile(presentationTestDependencies.espresso) {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-    androidTestCompile(presentationTestDependencies.supportTestRunner) {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-    androidTestCompile(presentationTestDependencies.supportTestRules) {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.0'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.0'
-
-    androidTestCompile ('com.novoda:rxpresso:0.2.0') {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'io.reactivex'
-    }
+    //RxJava
+    compile "io.reactivex.rxjava2:rxjava:${dependencies.rxJavaVersion}"
+    compile "io.reactivex.rxjava2:rxandroid:${dependencies.rxAndroidVersion}"
 
     // Unit tests dependencies
-    testCompile presentationTestDependencies.jUnit
-    testCompile presentationTestDependencies.mockito
+    testCompile "junit:junit:${dependencies.jUnitVersion}"
+    testCompile "org.mockito:mockito-core:${dependencies.mockitoVersion}"
+
+    //UI Tests Dependencies
+    androidTestProvided "javax.annotation:jsr250-api:${dependencies.javaxAnnotationVersion}"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:${dependencies.daggerVersion}"
+    androidTestCompile "com.google.dagger:dagger:${dependencies.daggerVersion}"
+    androidTestCompile "org.mockito:mockito-core:${dependencies.mockitoVersion}"
+    androidTestCompile "com.github.fabioCollini:DaggerMock:${dependencies.daggerMockVersion}"
+
+    androidTestCompile("com.android.support.test.espresso:espresso-core:${dependencies.espressoVersion}") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile("com.android.support.test:runner:${dependencies.testRunnerVersion}") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile("com.android.support.test:rules:${dependencies.testRulesVersion}") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    androidTestCompile "com.google.dexmaker:dexmaker:${dependencies.dexMakerVersion}"
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:${dependencies.dexMakerVersion}"
 
     // Custom checkstyle rules
     checkstyle project(':custom-checkstyle')
@@ -206,6 +193,3 @@ class TimingsListener implements TaskExecutionListener, BuildListener {
 }
 
 gradle.addListener new TimingsListener()
-
-//GENERATE BETTER APK NAMES
-apply from: "../buildsystem/artifacts.gradle"
