@@ -16,7 +16,6 @@ android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
 
     compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
-    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
 
     defaultConfig {
         minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
@@ -96,100 +95,47 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     def dependencies = rootProject.ext
 
     //KOTLIN
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //DAGGER
     annotationProcessor "com.google.dagger:dagger-compiler:${dependencies.daggerVersion}"
-    compile "com.google.dagger:dagger:${dependencies.daggerVersion}"
+    implementation "com.google.dagger:dagger:${dependencies.daggerVersion}"
 
     //Android
-    compile "com.android.support:design:${dependencies.supportLibsVersion}"
-    compile "com.android.support:appcompat-v7:${dependencies.supportLibsVersion}"
-    provided "javax.annotation:jsr250-api:${dependencies.javaxAnnotationVersion}"
-    compile "com.android.support:recyclerview-v7:${dependencies.recyclerViewVersion}"
+    implementation "com.android.support:design:${dependencies.supportLibsVersion}"
+    implementation "com.android.support:appcompat-v7:${dependencies.supportLibsVersion}"
+    compileOnly "javax.annotation:jsr250-api:${dependencies.javaxAnnotationVersion}"
+    implementation "com.android.support:recyclerview-v7:${dependencies.recyclerViewVersion}"
 
     //RxJava
-    compile "io.reactivex.rxjava2:rxjava:${dependencies.rxJavaVersion}"
-    compile "io.reactivex.rxjava2:rxandroid:${dependencies.rxAndroidVersion}"
+    implementation "io.reactivex.rxjava2:rxjava:${dependencies.rxJavaVersion}"
+    implementation "io.reactivex.rxjava2:rxandroid:${dependencies.rxAndroidVersion}"
 
     // Unit tests dependencies
-    testCompile "junit:junit:${dependencies.jUnitVersion}"
-    testCompile "org.mockito:mockito-core:${dependencies.mockitoVersion}"
+    testImplementation "junit:junit:${dependencies.jUnitVersion}"
+    testImplementation "org.mockito:mockito-core:${dependencies.mockitoVersion}"
 
     //UI Tests Dependencies
-    androidTestProvided "javax.annotation:jsr250-api:${dependencies.javaxAnnotationVersion}"
     androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:${dependencies.daggerVersion}"
-    androidTestCompile "com.google.dagger:dagger:${dependencies.daggerVersion}"
-    androidTestCompile "org.mockito:mockito-core:${dependencies.mockitoVersion}"
-    androidTestCompile "com.github.fabioCollini:DaggerMock:${dependencies.daggerMockVersion}"
+    androidTestImplementation "com.google.dagger:dagger:${dependencies.daggerVersion}"
+    androidTestImplementation "org.mockito:mockito-core:${dependencies.mockitoVersion}"
+    androidTestImplementation "com.github.fabioCollini:DaggerMock:${dependencies.daggerMockVersion}"
 
-    androidTestCompile("com.android.support.test.espresso:espresso-core:${dependencies.espressoVersion}") {
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:${dependencies.espressoVersion}") {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestCompile("com.android.support.test:runner:${dependencies.testRunnerVersion}") {
+    androidTestImplementation("com.android.support.test:runner:${dependencies.testRunnerVersion}") {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestCompile("com.android.support.test:rules:${dependencies.testRulesVersion}") {
+    androidTestImplementation("com.android.support.test:rules:${dependencies.testRulesVersion}") {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
-    androidTestCompile "com.google.dexmaker:dexmaker:${dependencies.dexMakerVersion}"
-    androidTestCompile "com.google.dexmaker:dexmaker-mockito:${dependencies.dexMakerVersion}"
-
-    // Custom checkstyle rules
-    checkstyle project(':custom-checkstyle')
+    androidTestImplementation "com.google.dexmaker:dexmaker:${dependencies.dexMakerVersion}"
+    androidTestImplementation "com.google.dexmaker:dexmaker-mockito:${dependencies.dexMakerVersion}"
 }
-
-// Log out test results to console
-tasks.matching { it instanceof Test }.
-        all {
-            testLogging.events = ["failed", "passed", "skipped"]
-        }
-
-//We use this to check gradle compiling times individually
-class TimingsListener implements TaskExecutionListener, BuildListener {
-
-    private Clock clock
-    private timings = []
-
-    @Override
-    void buildFinished(BuildResult result) {
-        println "Task timings:"
-        for (timing in timings) {
-            if (timing[0] >= 50) {
-                printf "%7sms  %s\n", timing
-            }
-        }
-    }
-
-    @Override
-    void buildStarted(Gradle gradle) {}
-
-    @Override
-    void projectsEvaluated(Gradle gradle) {}
-
-    @Override
-    void projectsLoaded(Gradle gradle) {}
-
-    @Override
-    void settingsEvaluated(Settings settings) {}
-
-    @Override
-    void beforeExecute(Task task) {
-        clock = new org.gradle.util.Clock()
-    }
-
-    @Override
-    void afterExecute(Task task, TaskState state) {
-        def miliseconds = clock.timeInMs
-        timings.add([miliseconds, task.path])
-        task.project.logger.warn "${task.path} took ${miliseconds}ms"
-    }
-}
-
-gradle.addListener new TimingsListener()
