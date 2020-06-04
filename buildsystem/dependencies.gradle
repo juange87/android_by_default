@@ -17,11 +17,11 @@ ext {
     googlePlayServicesVersion = '9.2.0'
 
     //Libraries
-    daggerVersion = '2.21'
+    daggerVersion = '2.24'
     javaxInjectVersion = '1'
 
-    rxJavaVersion = '2.2.0'
-    rxAndroidVersion = '2.1.0'
+    rxJavaVersion = '2.2.18'
+    rxAndroidVersion = '2.1.1'
 
     javaxAnnotationVersion = '1.0'
 
@@ -35,13 +35,13 @@ ext {
 
     //Testing
     roboelectricVersion = '3.0'
-    jUnitVersion = '4.12'
+    jUnitVersion = '4.13'
     assertJVersion = '1.7.1'
-    mockitoVersion = '1.9.5'
+    mockitoVersion = '2.21.0'
     dexmakerVersion = '1.0'
-    espressoVersion = '2.2'
-    testRunnerVersion = '0.4.1'
-    testRulesVersion = '0.4.1'
+    espressoVersion = '3.0.2'
+    testRunnerVersion = '1.0.2'
+    testRulesVersion = '1.0.2'
     testingSupportLibVersion = '0.1'
     daggerMockVersion = '0.6'
     dexMakerVersion = '1.2'
